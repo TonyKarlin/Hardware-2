@@ -6,6 +6,9 @@ import time
 class Line:
 
     def __init__(self):  # Initial values of the Class.
+        self.colour = None
+        self.y = None
+        self.x = None
         self.sw2 = Pin(9, Pin.IN, Pin.PULL_UP)
         self.sw1 = Pin(8, Pin.IN, Pin.PULL_UP)
         self.sw0 = Pin(7, Pin.IN, Pin.PULL_UP)
@@ -55,13 +58,13 @@ class Line:
             start_time = time.time()
 
             while self.sw1.value() == 0:
-                # Subtracts the initial start time with the time the button has been held down for and checks if it reaches the duration threshold.
-                # If threshold is reached program returns "True".
+                # Subtracts the initial start time with the time the button has been held down for and checks if it
+                # reaches the duration threshold. If threshold is reached program returns "True".
                 if time.time() - start_time >= duration_threshold:
                     return True
 
     def shut_down(self):
-        # Gives a centered shut down message to the user on the OLED display.
+        # Gives a centered shut-down message to the user on the OLED display.
         shut_dwn_msg = "Shut down"
         msg_width = len(shut_dwn_msg) * 8
         msg_height = 8
@@ -88,17 +91,17 @@ def main():
 
         if lines.sw2.value() == 0:  # Draws upwards on button press/hold
             lines.draw_up()
-        elif lines.sw0.value() == 0:    # Draws downwards on button press/hold
+        elif lines.sw0.value() == 0:  # Draws downwards on button press/hold
             lines.draw_down()
         elif lines.sw1.value() == 0:  # Resets the position of the line
             lines.reset()
             # If reset() function returns "True", loop breaks and the program is shut down.
             if lines.reset():
-                lines.clear()   # Clears a trashy pixel on the edge of the screen
-                lines.shut_down()   # Displays the shut down message to the user
-                time.sleep(2)   # for 2 seconds,
-                lines.clear()   # before it clears the display.
-                break
+                lines.clear()  # Clears a trashy pixel on the edge of the screen
+                lines.shut_down()  # Displays the shut-down message to the user
+                time.sleep(2)  # for 2 seconds,
+                lines.clear()  # before it clears the display,
+                break  # and breaks out of the loop/program.
 
 
 if __name__ == "__main__":
