@@ -36,8 +36,8 @@ class Line:
 
     def draw_down(self):  # Draws the line downwards.
         self.y -= 1
-        if self.y <= 0:
-            self.y = 1
+        if self.y < 0:
+            self.y = 0
 
     def clear(self):  # Clears the display
         self.oled.fill(0)
@@ -83,7 +83,7 @@ def main():
     # Initializes a starting position for our line in the main function.
     lines.start_pos()
 
-    while True:
+    while not lines.reset():
         lines.move()  # Starts the movement of the line.
 
         if lines.x >= lines.oled_width:  # Resets x coordinate of the line
@@ -96,13 +96,12 @@ def main():
         elif lines.sw1.value() == 0:  # Resets the position of the line
             lines.reset()
             # If reset() function returns "True", loop breaks and the program is shut down.
-            if lines.reset():
-                lines.clear()  # Clears a trashy pixel on the edge of the screen
-                lines.shut_down()  # Displays the shut-down message to the user
-                time.sleep(2)  # for 2 seconds,
-                lines.clear()  # before it clears the display,
-                break  # and breaks out of the loop/program.
-
+        
+    lines.clear()
+    lines.shut_down()
+    time.sleep(2)
+    lines.clear()
 
 if __name__ == "__main__":
     main()
+
